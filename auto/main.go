@@ -1,5 +1,9 @@
 package auto
 
+import (
+	"io"
+)
+
 type Pilot struct {
 	Text   []string
 	Width  int
@@ -18,7 +22,7 @@ func (p *Pilot) Open(func(int)) error {
 
 func (ap *Pilot) GetKey() (string, error) {
 	if len(ap.Text) <= 0 {
-		return "\r", nil
+		return "", io.EOF
 	}
 	result := ap.Text[0]
 	ap.Text = ap.Text[1:]
