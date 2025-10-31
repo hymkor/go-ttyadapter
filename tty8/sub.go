@@ -1,18 +1,18 @@
-package ttysub
+package tty8
 
 import (
 	"strings"
 	"unicode/utf16"
 )
 
-// XTty is the interface of tty to use GetKey function.
-type XTty interface {
+// xTty is the interface of tty to use GetKey function.
+type xTty interface {
 	Raw() (func() error, error)
 	ReadRune() (rune, error)
 	Buffered() bool
 }
 
-func GetOneKey(tty XTty) (string, error) {
+func getOneKey(tty xTty) (string, error) {
 	var buffer strings.Builder
 	escape := false
 	var surrogated rune = 0
@@ -41,7 +41,7 @@ func GetOneKey(tty XTty) (string, error) {
 	}
 }
 
-func GetKeys(tty XTty) ([]string, error) {
+func getKeys(tty xTty) ([]string, error) {
 	clean, err := tty.Raw()
 	if err != nil {
 		return nil, err
@@ -51,7 +51,7 @@ func GetKeys(tty XTty) ([]string, error) {
 	keys := []string{}
 
 	for {
-		key1, err := GetOneKey(tty)
+		key1, err := getOneKey(tty)
 		if err != nil {
 			return nil, err
 		}

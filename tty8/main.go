@@ -4,8 +4,6 @@ import (
 	"fmt"
 
 	"github.com/mattn/go-tty"
-
-	"github.com/nyaosorg/go-ttyadapter/internal/ttysub"
 )
 
 // Tty is a wrapper around github.com/mattn/go-tty.
@@ -56,7 +54,7 @@ func (m *Tty) Open(onResize func(width int)) error {
 func (m *Tty) GetKey() (string, error) {
 	if len(m.buf) <= 0 {
 		var err error
-		m.buf, err = ttysub.GetKeys(m.TTY)
+		m.buf, err = getKeys(m.TTY)
 		if err != nil || len(m.buf) <= 0 {
 			return "", err
 		}
