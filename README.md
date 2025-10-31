@@ -87,3 +87,19 @@ The demo below shows two modes in sequence:
 
 [go-tty]: https://github.com/mattn/go-tty
 [xterm]: https://pkg.go.dev/golang.org/x/term
+
+Release notes
+-------------
+
+- [English](release_note.md)
+- [Japanese](release_note_ja.md)
+
+License
+-------
+
+MIT License
+
+Author
+------
+
+- [hymkor (HAYAMA Kaoru)](https://github.com/hymkor)
