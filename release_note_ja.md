@@ -1,0 +1,1 @@
+- 初版: github.com/nyaosorg/go-readline-ny より機能を分離

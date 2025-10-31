@@ -1,0 +1,1 @@
+- Initial release: separated functionality from github.com/nyaosorg/go-readline-ny
