@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/nyaosorg/go-readline-ny/tty10"
+	"github.com/nyaosorg/go-ttyadapter/tty10"
 )
 
 func mains() error {

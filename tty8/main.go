@@ -5,7 +5,7 @@ import (
 
 	"github.com/mattn/go-tty"
 
-	"github.com/nyaosorg/go-readline-ny/internal/ttysub"
+	"github.com/nyaosorg/go-ttyadapter/internal/ttysub"
 )
 
 // Tty is a wrapper around github.com/mattn/go-tty.
