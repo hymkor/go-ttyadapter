@@ -22,26 +22,27 @@ type Tty struct {
 // It also starts a goroutine that listens for terminal resize notifications.
 // The goroutine receives events from go-tty's SIGWINCH channel and,
 // if onResize is not nil, invokes the provided callback function.
-func (m *Tty) Open(onResize func(width int)) error {
+func (m *Tty) Open(onResize func(width, height int)) error {
 	var err error
 	m.TTY, err = tty.Open()
 	if err != nil {
 		return fmt.Errorf("go-tty.Open: %w", err)
 	}
-	_lastw, _, err := m.TTY.Size()
+	_lastw, _lasth, err := m.TTY.Size()
 	if err != nil {
 		return fmt.Errorf("go-tty.Size: %w", err)
 	}
 	if onResize != nil {
 		ws := m.TTY.SIGWINCH()
-		go func(lastw int) {
+		go func(lastw, lasth int) {
 			for wh := range ws {
-				if lastw != wh.W {
-					onResize(wh.W)
+				if lastw != wh.W || lasth != wh.H {
+					onResize(wh.W, wh.H)
 					lastw = wh.W
+					lasth = wh.H
 				}
 			}
-		}(_lastw)
+		}(_lastw, _lasth)
 	}
 	return nil
 }

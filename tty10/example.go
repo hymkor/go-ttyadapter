@@ -7,16 +7,17 @@ import (
 	"os"
 	"strings"
 
+	"github.com/nyaosorg/go-ttyadapter"
 	"github.com/nyaosorg/go-ttyadapter/tty10"
 )
 
 func mains() error {
-	tty := &tty10.Tty{}
+	var tty ttyadapter.Tty = &tty10.Tty{}
 	var err error
 
 	if len(os.Args) > 1 {
-		err = tty.Open(func(w int) {
-			fmt.Printf("Change width: %d\n", w)
+		err = tty.Open(func(w, h int) {
+			fmt.Printf("Change size: %d, %d\n", w, h)
 		})
 	} else {
 		err = tty.Open(nil)
