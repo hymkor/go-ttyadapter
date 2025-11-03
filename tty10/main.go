@@ -14,7 +14,7 @@ type Tty struct {
 	buf     []byte
 }
 
-func (M *Tty) Open(onSize func(int)) error {
+func (M *Tty) Open(onResize func(int, int)) error {
 	var err error
 
 	stdin := int(os.Stdin.Fd())
@@ -23,13 +23,13 @@ func (M *Tty) Open(onSize func(int)) error {
 		return err
 	}
 
-	if onSize != nil {
-		w, _, err := M.Size()
+	if onResize != nil {
+		w, h, err := M.Size()
 		if err != nil {
 			return err
 		}
 		M.done = make(chan struct{})
-		go func(lastw int) {
+		go func(lastw, lasth int) {
 			ticker := time.NewTicker(time.Second)
 			for {
 				select {
@@ -37,14 +37,15 @@ func (M *Tty) Open(onSize func(int)) error {
 					ticker.Stop()
 					return
 				case <-ticker.C:
-					w, _, err := M.Size()
-					if err == nil && w != lastw {
-						onSize(w)
+					w, h, err := M.Size()
+					if err == nil && (w != lastw || h != lasth) {
+						onResize(w, h)
 						lastw = w
+						lasth = h
 					}
 				}
 			}
-		}(w)
+		}(w, h)
 	}
 	return nil
 }
