@@ -1,4 +1,10 @@
-- Added a `height` parameter to the callback function of the `Open` method.
+v0.1.0
+------
+Nov 3, 2025
+
+### Breaking changes
+
+- Added a `height` parameter to the callback function of the `Open` method. (#1)
   Originally, this package was developed as a subpackage of `nyaosorg/go-readline-ny`, where only the terminal width (`width`) was needed for single-line input.
   Since the package is now being redesigned as a standalone and more general-purpose library, it was necessary to include the terminal height (`height`) as well.
 
