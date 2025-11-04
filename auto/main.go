@@ -10,7 +10,7 @@ type Pilot struct {
 	Height int
 }
 
-func (p *Pilot) Open(func(int,int)) error {
+func (p *Pilot) Open(func(int, int)) error {
 	if p.Width <= 0 {
 		p.Width = 80
 	}
