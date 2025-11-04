@@ -1,3 +1,6 @@
+- Added new field `auto.Pilot.OnGetKey`.
+   This allows users to adjust the auto-pilot speed by setting a callback function.
+
 v0.1.0
 ------
 Nov 3, 2025
