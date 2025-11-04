@@ -1,4 +1,4 @@
-- Added new field `auto.Pilot.OnGetKey`.
+- Added new field `auto.Pilot.OnGetKey`. (#2)
    This allows users to adjust the auto-pilot speed by setting a callback function.
 
 v0.1.0
