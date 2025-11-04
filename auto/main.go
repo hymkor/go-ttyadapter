@@ -5,12 +5,13 @@ import (
 )
 
 type Pilot struct {
-	Text   []string
-	Width  int
-	Height int
+	Text     []string
+	Width    int
+	Height   int
+	OnGetKey func(*Pilot) error
 }
 
-func (p *Pilot) Open(func(int,int)) error {
+func (p *Pilot) Open(func(int, int)) error {
 	if p.Width <= 0 {
 		p.Width = 80
 	}
@@ -23,6 +24,11 @@ func (p *Pilot) Open(func(int,int)) error {
 func (ap *Pilot) GetKey() (string, error) {
 	if len(ap.Text) <= 0 {
 		return "", io.EOF
+	}
+	if ap.OnGetKey != nil {
+		if err := ap.OnGetKey(ap); err != nil {
+			return "", err
+		}
 	}
 	result := ap.Text[0]
 	ap.Text = ap.Text[1:]
