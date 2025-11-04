@@ -30,23 +30,34 @@ Example
 package main
 
 import (
+    "flag"
     "fmt"
     "os"
     "strings"
+    "time"
 
     "github.com/nyaosorg/go-ttyadapter"
     "github.com/nyaosorg/go-ttyadapter/auto"
     "github.com/nyaosorg/go-ttyadapter/tty8"
 )
 
+var flagInterval = flag.Uint("interval", 0, "delay (seconds) between simulated key inputs")
+
 func run(operations []string) error {
     var tty ttyadapter.Tty
 
-    // If command-line arguments are given, use pseudo terminal for simulation.
+    // If command-line arguments are given, simulate key inputs using auto.Pilot.
     if len(operations) > 0 {
         // Append ESC to end to exit automatically.
         operations = append(operations, "\x1B")
-        tty = &auto.Pilot{Text: operations}
+        var hook func(*auto.Pilot) error
+        if *flagInterval > 0 {
+            hook = func(_ *auto.Pilot) error {
+                time.Sleep(time.Duration(*flagInterval) * time.Second)
+                return nil
+            }
+        }
+        tty = &auto.Pilot{Text: operations, OnGetKey: hook}
     } else {
         tty = &tty8.Tty{}
     }
@@ -70,7 +81,8 @@ func run(operations []string) error {
 }
 
 func main() {
-    if err := run(os.Args[1:]); err != nil {
+    flag.Parse()
+    if err := run(flag.Args()); err != nil {
         fmt.Fprintln(os.Stderr, err)
         os.Exit(1)
     }
